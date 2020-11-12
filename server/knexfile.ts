@@ -8,9 +8,10 @@ module.exports = {
   migrations:{
     directory: path.resolve(__dirname, "src", "database", "migrations")
   },
+  //seeds são criadas para cadastrar valores previamente estabelecidos em nossa aplicação.
   seeds:{
     directory: path.resolve(__dirname, "src", "database", "seeds")
   },
   useNullAsDefault: true 
-  //andre
+  
 }
