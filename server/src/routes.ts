@@ -8,6 +8,7 @@ routes.get("/especialidade", async (request, response) => {
 
   const serializedEspecialidade = especs.map(espec => {
     return {
+      cod_especialidade: espec.cod_especialidade,
       nome_especialidade: espec.nome_especialidade,
       image_url: `http://localhost:3333/uploads/${espec.image}`
     }
@@ -37,9 +38,26 @@ routes.post("/medico", async (request, response) => {
     especialidade
   } = request.body;
 
-  knex("medico").insert({
+  await knex("medico").insert({
+    nome_med,
+    rg_med,
+    cpf_med,
+    orgao_expedidor,
+    data_nasc,
+    data_adm,
+    sexo_med,
+    endereco_med,
+    bairro_med,
+    n_med,
+    comp_med,
+    cep_med,
+    celular_med,
+    crm_med,
+    cid_med,
+    uf_med
+  });
 
-  })
-})
+  return response.json({ success: true });
+});
 
 export default routes;
