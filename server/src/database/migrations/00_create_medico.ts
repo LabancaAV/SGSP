@@ -17,10 +17,8 @@ export async function up(knex: Knex){
     table.string("cep_med",10);
     table.string("celular_med",20).notNullable();
     table.string("crm_med",10).notNullable();
-    table.integer("cid_id")
-      .notNullable()
-      .references("cod_cidade")
-      .inTable("cidade");
+    table.string("cid_med").notNullable();
+    table.string("uf_med",2).notNullable();
   })
 }
 
