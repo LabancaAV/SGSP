@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/src/database/database.sqlite-journal
 /.pnp
 .pnp.js
 
