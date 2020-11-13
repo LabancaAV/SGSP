@@ -38,7 +38,7 @@ routes.post("/medico", async (request, response) => {
     especialidade
   } = request.body;
 
-  await knex("medico").insert({
+  const ids = await knex("medico").insert({
     nome_med,
     rg_med,
     cpf_med,
@@ -56,6 +56,15 @@ routes.post("/medico", async (request, response) => {
     cid_med,
     uf_med
   });
+
+  const medEsp = especialidade.map((esp_id: number) => {
+    return{
+      esp_id,
+      med_id: ids[0]
+    }
+  })
+
+  await knex("med_esp").insert(medEsp);
 
   return response.json({ success: true });
 });
