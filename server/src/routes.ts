@@ -1,76 +1,19 @@
 import express from "express";
 
+import MedicosController from "./controllers/MedicosController";
+import EspecialidadesController from "./controllers/EspecialidadesController";
+
 const routes = express.Router();
-import knex from "./database/connection";
+const medicosController = new MedicosController();
+const especialidadesController = new EspecialidadesController();
 
-routes.get("/especialidade", async (request, response) => {
-  const especs = await knex("especialidade").select("*");
+routes.get("/especialidade", especialidadesController.index);
 
-  const serializedEspecialidade = especs.map(espec => {
-    return {
-      cod_especialidade: espec.cod_especialidade,
-      nome_especialidade: espec.nome_especialidade,
-      image_url: `http://localhost:3333/uploads/${espec.image}`
-    }
-  })
+routes.post("/medico", medicosController.create);
+routes.get("/medico", medicosController.index);
+routes.get("/medico/:id", medicosController.show);
 
-  return response.json(serializedEspecialidade); 
-});
 
-routes.post("/medico", async (request, response) => {
-  const {
-    nome_med,
-    rg_med,
-    cpf_med,
-    orgao_expedidor,
-    data_nasc,
-    data_adm,
-    sexo_med,
-    endereco_med,
-    bairro_med,
-    n_med,
-    comp_med,
-    cep_med,
-    celular_med,
-    crm_med,
-    cid_med,
-    uf_med,
-    especialidade
-  } = request.body;
-
-  const trx = await knex.transaction();
-
-  const insertedIds = await trx("medico").insert({
-    nome_med,
-    rg_med,
-    cpf_med,
-    orgao_expedidor,
-    data_nasc,
-    data_adm,
-    sexo_med,
-    endereco_med,
-    bairro_med,
-    n_med,
-    comp_med,
-    cep_med,
-    celular_med,
-    crm_med,
-    cid_med,
-    uf_med
-  });
-
-  const med_id = insertedIds[0];
-
-  const medEsp = especialidade.map((esp_id: number) => {
-    return{
-      esp_id,
-      med_id
-    }
-  })
-
-  await trx("med_esp").insert(medEsp);
-
-  return response.json({ success: true });
-});
+//index(varios), show(um apenas), create, update, delete
 
 export default routes;
