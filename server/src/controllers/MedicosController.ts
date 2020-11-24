@@ -20,6 +20,12 @@ class MedicosController{
     return response.json(medicos);
   }
 
+  //async todos(request: Request, response: Response) {
+  //  const allmedicos = await knex("medico").select("*");
+  //
+  //  return response.json(allmedicos); 
+  //}
+
   async show(request: Request, response: Response){
     const { id } = request.params; 
 
