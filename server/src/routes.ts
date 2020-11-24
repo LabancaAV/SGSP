@@ -17,6 +17,7 @@ routes.get("/medico", medicosController.index);
 routes.get("/medico/:id", medicosController.show);
 
 routes.post("/pacientes", pacientesController.create);
+routes.get("/pacientes/:id", pacientesController.show);
 
 
 //index(varios), show(um apenas), create, update, delete

@@ -32,7 +32,7 @@ class MedicosController{
     const medico = await knex("medico").where("cod_medico", id).first();
 
     if(!medico){
-      return response.status(400).json({ messagem: "Doctor not found" });
+      return response.status(400).json({ message: "Doctor not found" });
     }
 
     const especialidades = await knex("especialidade")

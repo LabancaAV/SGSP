@@ -2,6 +2,19 @@ import { json, Request, Response } from "express";
 import knex from "../database/connection";
 
 class PacientesController{
+  async show(request: Request, response: Response){
+    const { id } = request.params;
+
+    const paciente = await knex("pacientes").where("cod_pac", id).first();
+
+    if(!paciente){
+      return response.json({ message: "Paciente not found." })
+    }
+
+    return response.json(paciente);
+
+  }
+
   async create(request: Request, response: Response){
     const {    
         nome_pac,
