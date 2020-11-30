@@ -45,7 +45,7 @@ class PacientesController{
         uf_pac
     } = request.body;
 
-    await knex("pacientes").insert({
+    const paciente = ({
         nome_pac,
         rg_pac,
         cpf_pac,
@@ -74,7 +74,14 @@ class PacientesController{
         uf_pac
     })
 
-    return response.json({ success: true }); 
+    const insertedIds = await knex("pacientes").insert(paciente);
+
+    const paciente_id = insertedIds[0];
+
+    return response.json({ 
+      id: paciente_id,
+      ...paciente
+     });
 
   }
 }
