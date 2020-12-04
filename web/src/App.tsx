@@ -1,15 +1,10 @@
 import React from 'react';
 import './App.css';
 
-import Header from "./Header";
-
 function App() {
-  return (   
-        <div>
-          <Header title="Hello man."/>
 
-          <h1>Conteúdo da aplicação.</h1>
-        </div>
+  return (   
+       <h1>oi</h1> 
   );
 }
 
