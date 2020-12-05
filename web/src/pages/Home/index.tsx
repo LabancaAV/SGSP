@@ -1,5 +1,6 @@
 import React from "react";
 import { FiLogIn } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 import "./styles.css";
 import logo from "../../assets/logo.svg";
@@ -16,12 +17,12 @@ const Home = () =>{
           <h1>Seu website hospitalar.</h1>
           <p>Ajudamos funcionários/servidores a gerenciarem atividades recorrent
             es em hospitais.</p>
-          <a href="/cadastro">
+          <Link to="/create-medico">
             <span>
               <FiLogIn />
             </span>
             <strong>Cadastre um médico</strong>
-          </a>
+          </Link>
         </main>
       </div>
     </div>
