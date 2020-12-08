@@ -81,6 +81,7 @@
 
 #page-create-medico form .field input[type="text"],
 #page-create-medico form .field input[type="email"],
+#page-create-medico form .field input[type="date"],
 #page-create-medico form .field input[type="number"] {
   flex: 1;
   background: #f0f0f5;
