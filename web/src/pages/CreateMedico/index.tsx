@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import api from "../../services/api";
 
 import "./styles.css";
 
 import logo from "../../assets/logo.svg";
+import { useState } from "react";
+
+interface Especialidade{
+  cod_especialidade:number,
+  nome_especialidade: string,
+  image_url: string
+}
 
 const CreateMedico = () =>{
+  const [especialidades, setEspecialidades] = useState<Especialidade[]>([]); 
+
+  useEffect(() => {
+    api.get("especialidade").then(response => {
+      setEspecialidades(response.data);
+    });
+  }, [] )
+
   return(
 
     <div id="page-create-medico">
@@ -194,42 +210,12 @@ const CreateMedico = () =>{
             <span>Selecione as especialidades do médico</span>
           </legend>
           <ul className="items-grid">
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
+            {especialidades.map(especialidade => (
+            <li key={especialidade.cod_especialidade}>
+              <img src={especialidade.image_url} alt={especialidade.nome_especialidade}/>
+            <span>{especialidade.nome_especialidade}</span>
             </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
-            <li>
-              <img src="http://localhost:3333/uploads/dermatologia.svg" alt="Teste"/>
-              <span>Dermatologia</span>
-            </li>
+            ))}
           </ul>
         </fieldset>
 
