@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import axios from "axios";
 import api from "../../services/api";
 
 import "./styles.css";
@@ -14,6 +15,11 @@ interface Especialidade{
   image_url: string
 }
 
+interface IBGEUFResponse{
+  sigla: string;
+}
+
+
 const CreateMedico = () =>{
   const [especialidades, setEspecialidades] = useState<Especialidade[]>([]); 
 
@@ -22,6 +28,13 @@ const CreateMedico = () =>{
       setEspecialidades(response.data);
     });
   }, [] )
+
+  useEffect(() => {
+    axios.get<IBGEUFResponse[]>("https://servicodados.ibge.gov.br/api/v1/localidades/estados").then(response => {
+      const ufInitials = response.data.map(uf => uf.sigla);
+      console.log(ufInitials);
+    });
+  }, [])
 
   return(
 
