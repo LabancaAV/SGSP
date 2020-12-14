@@ -1,4 +1,4 @@
-import React, { useEffect, ChangeEvent } from "react";
+import React, { useEffect, ChangeEvent, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
@@ -26,12 +26,31 @@ interface IBGECityResponse{
 
 const CreateMedico = () =>{
   const [especialidades, setEspecialidades] = useState<Especialidade[]>([]); 
+
   const [ufs, setUfs] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
 
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
 
-  const [cities, setCities] = useState<string[]>([]);
+  const [selectedEspecialidades, setSelectedEspecialidades] = useState<number[]>([])
+
+  const [formData, setFormData] = useState({
+    nome_med: "",
+    rg_med: "",
+    cpf_med: "",
+    orgao_expedidor: "",
+    data_nasc: "",
+    data_adm: "",
+    sexo_med: "",
+    endereco_med: "",
+    bairro_med: "",
+    n_med: "",
+    comp_med: "",
+    cep_med: "",
+    celular_med: "",
+    crm_med: "",
+  })
 
   useEffect(() => {
     api.get("especialidade").then(response => {
@@ -70,6 +89,72 @@ const CreateMedico = () =>{
     setSelectedCity(city);
   }
 
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>){
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value })
+  }
+
+  function handleSelectEspecialidade(cod_especialidade: number){
+    const alreadySelected = selectedEspecialidades.findIndex(especialidade => especialidade === cod_especialidade)
+    if(alreadySelected >= 0){
+      const filteredEspecialidades = selectedEspecialidades.filter(especialidade => especialidade !== cod_especialidade)
+      setSelectedEspecialidades(filteredEspecialidades);
+    }else{
+      setSelectedEspecialidades([ ...selectedEspecialidades, cod_especialidade ]);
+    }
+    
+  }
+
+  async function handleSubmit(event: FormEvent){
+    event.preventDefault();
+
+    const {
+        nome_med,
+        rg_med,
+        cpf_med,
+        orgao_expedidor,
+        data_nasc,
+        data_adm,
+        sexo_med,
+        endereco_med,
+        bairro_med,
+        n_med,
+        comp_med,
+        cep_med,
+        celular_med,
+        crm_med,
+    } = formData;
+
+    const uf_med = selectedUf;
+    const cid_med = selectedCity;
+    const especialidade = selectedEspecialidades
+
+    const data = {
+        nome_med,
+        rg_med,
+        cpf_med,
+        orgao_expedidor,
+        data_nasc,
+        data_adm,
+        sexo_med,
+        endereco_med,
+        bairro_med,
+        n_med,
+        comp_med,
+        cep_med,
+        celular_med,
+        crm_med,
+        cid_med,
+        uf_med,
+        especialidade
+    }
+    console.log(data);
+
+    await api.post("medico", data)
+
+    alert("Médico cadastrado no sistema do hospital SGSP!")
+  }
+
   return(
 
     <div id="page-create-medico">
@@ -85,7 +170,7 @@ const CreateMedico = () =>{
 
       </header>
 
-      <form>
+      <form onSubmit={handleSubmit}>
 
         <h1>Cadastro <br/> do Médico</h1>
 
@@ -100,6 +185,7 @@ const CreateMedico = () =>{
               type="text"
               name="nome_med"
               id="nome_med"
+              onChange={handleInputChange}
             />
           </div>
 
@@ -110,6 +196,7 @@ const CreateMedico = () =>{
                 type="text"
                 name="rg_med"
                 id="rg_med"
+                onChange={handleInputChange}
               />
             </div>
             <div className="field">
@@ -118,6 +205,7 @@ const CreateMedico = () =>{
                 type="text"
                 name="cpf_med"
                 id="cpf_med"
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -129,6 +217,7 @@ const CreateMedico = () =>{
                   type="text"
                   name="orgao_expedidor"
                   id="orgao_expedidor"
+                  onChange={handleInputChange}
                 />
             </div>
             <div className="field">
@@ -137,6 +226,7 @@ const CreateMedico = () =>{
                   type="text"
                   name="sexo_med"
                   id="sexo_med"
+                  onChange={handleInputChange}
                 />
             </div>
           </div>
@@ -148,6 +238,7 @@ const CreateMedico = () =>{
                 type="date"
                 name="data_nasc"
                 id="data_nasc"
+                onChange={handleInputChange}
               />
             </div>
             <div className="field">
@@ -156,6 +247,7 @@ const CreateMedico = () =>{
                 type="date"
                 name="data_adm"
                 id="data_adm"
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -167,6 +259,7 @@ const CreateMedico = () =>{
                   type="text"
                   name="celular_med"
                   id="celular_med"
+                  onChange={handleInputChange}
                 />
             </div>
             <div className="field">
@@ -175,6 +268,7 @@ const CreateMedico = () =>{
                   type="text"
                   name="crm_med"
                   id="crm_med"
+                  onChange={handleInputChange}
                 />
             </div>
           </div>
@@ -225,6 +319,7 @@ const CreateMedico = () =>{
                     type="text"
                     name="endereco_med"
                     id="endereco_med"
+                    onChange={handleInputChange}
                   />
             </div>
             <div className="field">
@@ -233,6 +328,7 @@ const CreateMedico = () =>{
                     type="text"
                     name="bairro_med"
                     id="bairro_med"
+                    onChange={handleInputChange}
                   />
             </div>
           </div>
@@ -244,6 +340,7 @@ const CreateMedico = () =>{
                       type="text"
                       name="n_med"
                       id="n_med"
+                      onChange={handleInputChange}
                     />
             </div>
             <div className="field">
@@ -252,6 +349,7 @@ const CreateMedico = () =>{
                     type="text"
                     name="cep_med"
                     id="cep_med"
+                    onChange={handleInputChange}
                   />
             </div>
           </div>
@@ -262,6 +360,7 @@ const CreateMedico = () =>{
                       type="text"
                       name="comp_med"
                       id="comp_med"
+                      onChange={handleInputChange}
                     />
           </div>
           
@@ -274,7 +373,11 @@ const CreateMedico = () =>{
           </legend>
           <ul className="items-grid">
             {especialidades.map(especialidade => (
-            <li key={especialidade.cod_especialidade}>
+            <li 
+              key={especialidade.cod_especialidade}
+              onClick={() => handleSelectEspecialidade(especialidade.cod_especialidade)}
+              className={selectedEspecialidades.includes(especialidade.cod_especialidade) ? 'selected' : ''}
+            >
               <img src={especialidade.image_url} alt={especialidade.nome_especialidade}/>
             <span>{especialidade.nome_especialidade}</span>
             </li>
