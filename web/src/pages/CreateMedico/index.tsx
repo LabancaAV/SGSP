@@ -22,6 +22,7 @@ interface IBGEUFResponse{
 
 const CreateMedico = () =>{
   const [especialidades, setEspecialidades] = useState<Especialidade[]>([]); 
+  const [ufs, setUfs] = useState<string[]>([]);
 
   useEffect(() => {
     api.get("especialidade").then(response => {
@@ -32,7 +33,7 @@ const CreateMedico = () =>{
   useEffect(() => {
     axios.get<IBGEUFResponse[]>("https://servicodados.ibge.gov.br/api/v1/localidades/estados").then(response => {
       const ufInitials = response.data.map(uf => uf.sigla);
-      console.log(ufInitials);
+      setUfs(ufInitials);
     });
   }, [])
 
@@ -158,6 +159,9 @@ const CreateMedico = () =>{
               <label htmlFor="uf_med">Estado (UF)</label>
               <select name="uf_med" id="uf_med">
                 <option value="0">Selecione uma UF</option>
+                {ufs.map(uf => (
+                  <option key={uf} value={uf}>{uf}</option>
+                ))}
               </select>
             </div>
             <div className="field">
