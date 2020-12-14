@@ -29,6 +29,7 @@ const CreateMedico = () =>{
   const [ufs, setUfs] = useState<string[]>([]);
 
   const [selectedUf, setSelectedUf] = useState('0');
+  const [selectedCity, setSelectedCity] = useState('0');
 
   const [cities, setCities] = useState<string[]>([]);
 
@@ -62,6 +63,11 @@ const CreateMedico = () =>{
   function handleSelectUf(event: ChangeEvent<HTMLSelectElement>){
     const uf = event.target.value;
     setSelectedUf(uf);
+  }
+
+  function handleSelectCity(event: ChangeEvent<HTMLSelectElement>){
+    const city = event.target.value;
+    setSelectedCity(city);
   }
 
   return(
@@ -198,7 +204,12 @@ const CreateMedico = () =>{
             </div>
             <div className="field">
               <label htmlFor="cid_med">Cidade</label>
-              <select name="cid_med" id="cid_med">
+              <select 
+                name="cid_med" 
+                id="cid_med" 
+                value={selectedCity}
+                onChange={handleSelectCity}
+              >
                 <option value="0">Selecione uma cidade</option>
                 {cities.map(city => (
                   <option key={city} value={city}>{city}</option>
